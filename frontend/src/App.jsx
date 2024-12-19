@@ -1,13 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
+import React from 'react'
+import { Container } from 'react-bootstrap' 
+import Header from './components/Header.jsx'
+const App = () => {
   return (
-      <h1>megacart</h1>
+    <>
+    <Header/>
+    <main className='py-3'>
+      <Container>
+        <h1>Welcome To MegaCart</h1>
+      </Container>
+    </main>
+    </>
+   
   )
 }
 
