@@ -9,7 +9,7 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <Navbar.Brand >
+          <Navbar.Brand href='/'>
             <img src={logo} alt="MegaCart" width="30" height="30"  style={{ backgroundColor: "transparent" }}  />
             MegaCart
           </Navbar.Brand>
