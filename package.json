@@ -1,0 +1,19 @@
+{
+  "name": "megacart",
+  "version": "1.0.0",
+  "description": "Ecommerce Website built with MERN",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "author": "Aarya Chepuri",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.9"
+  }
+}
