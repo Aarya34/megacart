@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import e from 'express';
+import express from 'express';
 
 const users = [
     {
