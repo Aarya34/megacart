@@ -11,6 +11,7 @@ import { addToCart } from '../slices/cartSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+
 const ProductScreen = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
@@ -86,7 +87,7 @@ const ProductScreen = () => {
                       <Form.Control
                         as='select'
                         value={qty}
-                        onChange={(e) =>{ setQty(e.target.value)}}
+                        onChange={(e) =>{ setQty(Number(e.target.value))}}
                       >
                         {[...Array(product.countInStock).keys()].map((x) => (
                           <option key={x + 1} value={x+1}>
