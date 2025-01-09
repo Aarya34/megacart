@@ -10,10 +10,8 @@ const CartScreen = () => {
     const navigate = useNavigate();
     const cart = useSelector((state) => state.cart);
     const {cartItems} = cart;
-    // console.log("assssssssssssssssssssssss")
-    // console.log(cartItems)
     const checkoutHandler = async () => {
-        navigate('/login?redirect=shipping')
+        navigate('/login?redirect=/shipping')
     }
 
     const removeFromCartHandler = async (id) => {
