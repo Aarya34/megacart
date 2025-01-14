@@ -1,13 +1,25 @@
 import React from "react";
-import { Container, Nav, Navbar,Badge} from "react-bootstrap";
+import { Container, Nav, Navbar,Badge,NavDropdown} from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import logo from "../assets/logo.jpg";
-import {LinkContainer} from 'react-router-bootstrap'
-import { useSelector } from 'react-redux'
+import { useNavigate } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
+import { logout } from "../slices/authSlice";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import {LinkContainer} from "react-router-bootstrap"
 
 const Header = () => {
   const cart = useSelector(state => state.cart)
   const {cartItems} = cart
+  const {userInfo} = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [logoutUser] = useLogoutMutation()
+  const logoutHandler = async () => {
+    await logoutUser()
+    dispatch(logout())
+    navigate('/login')
+  }
   // console.log(cartItems.qty)
   // console.log(cart.qty)
   return (
@@ -30,7 +42,18 @@ const Header = () => {
                     </Badge>
                 )}
               </Nav.Link>
-              <Nav.Link href="/login">Sign In</Nav.Link>
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id='username'>
+                  {/* <Nav.Link href='/profile'> */}
+                    <NavDropdown.Item href='/profile'>Profile</NavDropdown.Item>
+                  {/* </Nav.Link> */}
+                  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <Nav.Link href="/login">
+                    Sign In
+                  </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
