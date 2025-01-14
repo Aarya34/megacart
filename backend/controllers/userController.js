@@ -28,10 +28,11 @@ const authUser = asyncHandler(async (req, res) => {
             token: null
         });
     } else {
-        res.status(404);
+        // console.log('Invalid email or password');
+        res.status(401);
         throw new Error('Invalid email or password');
     }
-    res.send('authUser');
+    // res.send('authUser');
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {

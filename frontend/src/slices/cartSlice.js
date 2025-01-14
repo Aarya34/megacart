@@ -33,11 +33,21 @@ const cartSlice = createSlice({
             const item = action.payload;
             const existItem = state.cartItems.find(x => x.product._id === item.product._id);
             existItem.qty = item.qty;
+            state.itemsPrice = state.cartItems.reduce((acc, item) => acc + item.product.price * item.qty, 0);
+            state.shippingPrice = state.itemsPrice > 100 ? 0 : 10;
+            state.taxPrice = Number((0.15 * state.itemsPrice).toFixed(2));
+            state.totalPrice = state.itemsPrice + state.shippingPrice + state.taxPrice;
+            localStorage.setItem('cart', JSON.stringify(state));
         },
         removeItem: (state, action) => {
             state.cartItems = state.cartItems.filter((item) => {
                 return item.product._id !== action.payload.id;
             });
+
+            state.itemsPrice = state.cartItems.reduce((acc, item) => acc + item.product.price * item.qty, 0);
+            state.shippingPrice = state.itemsPrice > 100 ? 0 : 10;
+            state.taxPrice = Number((0.15 * state.itemsPrice).toFixed(2));
+            state.totalPrice = state.itemsPrice + state.shippingPrice + state.taxPrice;
             localStorage.setItem('cart', JSON.stringify(state));
         }
     },
