@@ -8,8 +8,8 @@ import Loader from '../components/Loader'
 import { useLoginMutation } from '../slices/usersApiSlice'
 import { setCredentials } from '../slices/authSlice'
 import {toast} from 'react-toastify'
-import { use } from 'react'
 import { USERS_URL,PRODUCTS_URL } from '../constants'
+import CheckoutSteps from '../components/CheckoutSteps'
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -47,6 +47,7 @@ const LoginScreen = () => {
     }
   return (
     <FormContainer>
+        <CheckoutSteps step1/>
         <h1>SignIn</h1>
         <Form  onSubmit={submitHandler}>
             <Form.Group controlId='email' className='mt-3'>

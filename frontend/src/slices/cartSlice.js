@@ -2,11 +2,8 @@ import {createSlice} from '@reduxjs/toolkit';
 import { act } from 'react';
 
 const initialState =localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) :{cartItems: [],
-    qty: 0,
-    itemsPrice: 0,
-    shippingPrice: 0,
-    taxPrice: 0,
-    totalPrice: 0
+    shippingAddress:{},
+    paymentMethod: 'PayPal',
 };
 const cartSlice = createSlice({
     name: 'cart',
@@ -49,9 +46,25 @@ const cartSlice = createSlice({
             state.taxPrice = Number((0.15 * state.itemsPrice).toFixed(2));
             state.totalPrice = state.itemsPrice + state.shippingPrice + state.taxPrice;
             localStorage.setItem('cart', JSON.stringify(state));
+        },
+        saveShippingAddress: (state, action) => {
+            state.shippingAddress = action.payload;
+            localStorage.setItem('cart', JSON.stringify(state));
+        },
+        savePaymentMethod: (state, action) => {
+            state.paymentMethod = action.payload;
+            localStorage.setItem('cart', JSON.stringify(state));
+        },
+        clearCart: (state) => {
+            state.cartItems = [];
+            state.itemsPrice = 0;
+            state.shippingPrice = 0;
+            state.taxPrice = 0;
+            state.totalPrice = 0;
+            localStorage.setItem('cart', JSON.stringify(state));
         }
     },
 });
 
-export const {addToCart,atCart,removeItem} = cartSlice.actions;
+export const {addToCart,atCart,removeItem,saveShippingAddress,savePaymentMethod,clearCart} = cartSlice.actions;
 export default cartSlice.reducer;
