@@ -118,7 +118,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         throw new Error('User not found');
     }
     
-    res.send('updateUserProfile');
+    // res.send('updateUserProfile');
 }
 );
 

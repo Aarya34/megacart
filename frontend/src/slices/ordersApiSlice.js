@@ -1,3 +1,4 @@
+import { getMyOrders } from '../../../backend/controllers/orderController';
 import {ORDERS_URL,PAYPAL_URL} from '../constants';
 import { apiSlice} from './apiSlice';
 
@@ -30,8 +31,14 @@ export const ordersApi = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5,
         }),
+        getMyOrders: builder.query({
+            query: () => ({
+                url: `${ORDERS_URL}/mine`,
+            }),
+            keepUnusedDataFor: 5,
+        }),
     }),
 }); 
 
-export const { useCreateOrderMutation, useGetOrderDetailsQuery,useGetPayPalClientIdQuery,usePayOrderMutation} = ordersApi;
+export const { useCreateOrderMutation, useGetOrderDetailsQuery,useGetPayPalClientIdQuery,usePayOrderMutation,useGetMyOrdersQuery} = ordersApi;
      

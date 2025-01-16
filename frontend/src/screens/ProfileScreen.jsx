@@ -9,6 +9,8 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { useProfileMutation } from '../slices/usersApiSlice'
 import { setCredentials } from '../slices/authSlice'
+import { useGetMyOrdersQuery } from '../slices/ordersApiSlice'
+import {FaTimes} from 'react-icons/fa'
 const ProfileScreen = () => {
     const {userInfo} = useSelector(state => state.auth)
     const [name,setName] = useState(userInfo?.name)
@@ -18,22 +20,24 @@ const ProfileScreen = () => {
     const [message,setMessage] = useState(null)
     const dispatch = useDispatch()
     const [profile,{isLoading,error}] = useProfileMutation()
+    const {data:orders,isLoading:loadingOrders,error:errorOrders} = useGetMyOrdersQuery()
     useEffect(() => {
-        if(!userInfo)
+        if(userInfo)
         {
-            window.location.href = '/login'
+           setName(userInfo.name)
+            setEmail(userInfo.email)
         }
-    }, [userInfo])
+    }, [userInfo,userInfo.name , userInfo.email])
     const submitHandler = async (e) => {
         e.preventDefault()
         if(password !== confirmPassword)
         {
-            setMessage('Passwords do not match')
+            toast.error('Passwords do not match')
         }
         else
         {
             try {
-                const res = await profile({name,email,password})
+                const res = await profile({_id:userInfo._id,name,email,password}).unwrap()
                 dispatch(setCredentials({...res}))
                 toast.success('Profile Updated')
             } catch (error) {
@@ -68,11 +72,41 @@ const ProfileScreen = () => {
                     <Form.Control type='password' placeholder='Confirm password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
                 </Form.Group>
                 <Button type='submit' variant='primary'>Update</Button>
+                {isLoading && <Loader />}
             </Form>
         </Col>
         <Col md={9}>
             <h2>My Orders</h2>
-            
+            {loadingOrders ? <Loader/> : errorOrders ? <Message variant='danger'>{errorOrders}</Message> : (
+                <Table striped bordered hover responsive className='table-sm'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>DATE</th>
+                            <th>TOTAL</th>
+                            <th>PAID</th>
+                            <th>DELIVERED</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders.map(order => (
+                            <tr key={order._id}>
+                                <td>{order._id}</td>
+                                <td>{order.createdAt.substring(0,10)}</td>
+                                <td>${order.totalPrice}</td>
+                                <td>{order.isPaid ? order.paidAt.substring(0,10) : <FaTimes style={{color:'red'}}/>}</td>
+                                <td>{order.isDelivered ? order.deliveredAt.substring(0,10) : <FaTimes style={{color:'red'}}/>}</td>
+                                <td>
+                                    <Link to={`/order/${order._id}`}>
+                                        <Button variant='light' className='btn-sm'>Details</Button>
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            )}
         </Col>
     </Row>
   )
