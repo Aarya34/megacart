@@ -29,14 +29,14 @@ const LoginScreen = () => {
         e.preventDefault();
         try {
            
-            console.log(PRODUCTS_URL);
-            console.log(USERS_URL);
+            // console.log(PRODUCTS_URL);
+            // console.log(USERS_URL);
             const res = await login({email,password}).unwrap()
             if(error)
                 {
                     toast.error(error)
                 }
-            console.log(res)
+            // console.log(res)
             
             dispatch(setCredentials({...res,}));
             toast.success('Login Successful')

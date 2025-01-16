@@ -9,7 +9,7 @@ const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
-        console.log('User matched');
+        // console.log('User matched');
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
             expiresIn: '30d',
         });
