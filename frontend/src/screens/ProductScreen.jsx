@@ -18,7 +18,7 @@ const ProductScreen = () => {
     const navigate = useNavigate()
     const { data: product, isLoading, error } = useGetProductDetailsQuery(id)
     const [qty, setQty] = useState(1)
-    
+    console.log(product)
     const addToCartHandler = () => {
         dispatch(addToCart({ product, qty }))
         navigate('/cart')

@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { act } from 'react';
 
 const initialState =localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) :{cartItems: [],
     shippingAddress:{},

@@ -2,7 +2,7 @@ import Message from "../components/Message";
 import { useDispatch, useSelector } from "react-redux";
 import {Link, useNavigate} from 'react-router-dom'
 import { FaTrash} from "react-icons/fa";
-import { addToCart,atCart,removeItem } from '../slices/cartSlice'
+import { atCart,removeItem } from '../slices/cartSlice'
 import {Row, Col, ListGroup, Image, Form, Button, Card} from "react-bootstrap";
 
 const CartScreen = () => {

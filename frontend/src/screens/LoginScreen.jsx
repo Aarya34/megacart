@@ -8,7 +8,6 @@ import Loader from '../components/Loader'
 import { useLoginMutation } from '../slices/usersApiSlice'
 import { setCredentials } from '../slices/authSlice'
 import {toast} from 'react-toastify'
-import { USERS_URL,PRODUCTS_URL } from '../constants'
 import CheckoutSteps from '../components/CheckoutSteps'
 const LoginScreen = () => {
     const [email, setEmail] = useState('')

@@ -3,7 +3,7 @@ import {Row,Col,ListGroup,Image,Card,Button,Form} from 'react-bootstrap'
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { PayPalButtons,usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import { useGetOrderDetailsQuery, usePayOrderMutation,useGetPayPalClientIdQuery } from "../slices/ordersApiSlice";
+import { useGetOrderDetailsQuery, usePayOrderMutation,useGetPayPalClientIdQuery,useDeliverOrderMutation } from "../slices/ordersApiSlice";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -16,6 +16,7 @@ const OrderScreen = () => {
     const [payOrder,{isLoading:loadingPay}] = usePayOrderMutation();
     const [{isPending},paypalDispatch] = usePayPalScriptReducer();
     const { data:paypal,isLoading: loadingPayPal ,error : errorPayPal, } = useGetPayPalClientIdQuery();
+    const [deliverOrder , {isLoading  : loadingpay}] = useDeliverOrderMutation();
     const {userInfo} = useSelector(state => state.auth)
     useEffect(() => {
         if(!errorPayPal && !loadingPayPal && paypal.clientId)
@@ -74,6 +75,15 @@ const OrderScreen = () => {
         }).then((orderID) => {
             return orderID
         })
+    }
+    const deliverOrderHandler = async () => {
+        try {
+            await deliverOrder(orderId)
+            toast.success('Order Delivered')
+            refetch()
+        } catch (error) {
+            toast.error('Order Delivery Failed')
+        }
     }
 
   return isLoading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : (
@@ -163,7 +173,7 @@ const OrderScreen = () => {
                         {loadingPay && <Loader/> }
                         {isPending ? <Loader/> : (
                             <div>
-                                
+                                    <Button onClick={onApproveTest} className="mb-2">Pay (ForTesting)</Button>
                                 <div>
                               
                                     <PayPalButtons
@@ -178,7 +188,12 @@ const OrderScreen = () => {
                         )}
                         </ListGroup.Item>
                     )}
-                        
+                    {loadingpay && <Loader/>}
+                    {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                        <ListGroup.Item>
+                            <Button type='button' className='btn btn-block' onClick={deliverOrderHandler}>Mark as Delivered</Button>
+                        </ListGroup.Item>
+                    )}
                 </ListGroup>
             </Card>
         </Col>

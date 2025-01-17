@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { logout } from "../slices/authSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
-import {LinkContainer} from "react-router-bootstrap"
+
 
 const Header = () => {
   const cart = useSelector(state => state.cart)
@@ -20,6 +20,7 @@ const Header = () => {
     dispatch(logout())
     navigate('/login')
   }
+  const noUnderlineStyle = { textDecoration: 'none' };
   // console.log(cartItems.qty)
   // console.log(cart.qty)
   return (
@@ -44,15 +45,23 @@ const Header = () => {
               </Nav.Link>
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
-                  {/* <Nav.Link href='/profile'> */}
                     <NavDropdown.Item href='/profile'>Profile</NavDropdown.Item>
-                  {/* </Nav.Link> */}
                   <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <Nav.Link href="/login">
                     Sign In
                   </Nav.Link>
+              )}
+              {userInfo && userInfo.isAdmin && (
+              <NavDropdown title='Admin' id='adminmenu'>
+                  <NavDropdown.Item href="/admin/userlist">Users</NavDropdown.Item>
+
+                  <NavDropdown.Item href="/admin/productlist">Products</NavDropdown.Item>
+
+                  <NavDropdown.Item href="/admin/orderlist">Orders</NavDropdown.Item>
+              </NavDropdown>
+              
               )}
             </Nav>
           </Navbar.Collapse>

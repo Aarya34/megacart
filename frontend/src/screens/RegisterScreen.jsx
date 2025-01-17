@@ -8,7 +8,6 @@ import Loader from '../components/Loader'
 import { setCredentials } from '../slices/authSlice'
 import {toast} from 'react-toastify'
 import { useRegisterMutation } from '../slices/usersApiSlice'
-import { USERS_URL,PRODUCTS_URL } from '../constants'
 const RegisterScreen = () => {
     
     const [name, setName] = useState('')
